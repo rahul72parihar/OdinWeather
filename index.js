@@ -9,6 +9,14 @@ function handleSearch() {
   renderLoading();
   getData(locationInput.value);
 }
+locationInput.addEventListener("keypress", function (event) {
+  // If the user presses the "Enter" key on the keyboard
+  if (event.key === "Enter") {
+    event.preventDefault();
+    submitButton.click();
+  }
+});
+
 async function getData(cityName) {
   let textToRender = "";
   await fetch(
@@ -18,7 +26,7 @@ async function getData(cityName) {
     .then((data) => {
       if (data.main) {
         let tempCelc = (data.main.temp - 273.15).toFixed(2);
-        textToRender = `${cityName.toUpperCase()} Temp - ${tempCelc} C`;
+        textToRender = `${cityName.toUpperCase()} Temp : ${tempCelc} C`;
       } else {
         textToRender = "CITY NOT FOUND";
       }
@@ -31,6 +39,7 @@ async function getData(cityName) {
 }
 function renderLoading() {
   const loadingImage = document.createElement("img");
+  loadingImage.classList.add("loding-img");
   loadingImage.src = "loading.svg";
   displayResult.replaceChildren(loadingImage);
 }
