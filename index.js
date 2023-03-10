@@ -25,8 +25,8 @@ async function getData(cityName) {
     .then((response) => response.json())
     .then((data) => {
       if (data.main) {
-        let tempCelc = (data.main.temp - 273.15).toFixed(2);
-        textToRender = `${cityName.toUpperCase()} Temp : ${tempCelc} C`;
+        const tempCelcius = kelvinToCelsius(data.main.temp);
+        textToRender = `${cityName.toUpperCase()} Temp : ${tempCelcius} C`;
       } else {
         textToRender = "CITY NOT FOUND";
       }
@@ -47,4 +47,7 @@ function renderTemp(textToRender) {
   const text = document.createElement("h2");
   text.textContent = textToRender;
   displayResult.replaceChildren(text);
+}
+function kelvinToCelsius(tempKelvin) {
+  return (tempKelvin - 273.15).toFixed(2);
 }
